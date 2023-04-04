@@ -27,7 +27,7 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: 'Hi, what would you like to learn about this legal case?',
+        message: '¡Hola! ¿Como puedo ayudarte con las CIES?',
         type: 'apiMessage',
       },
     ],
@@ -51,7 +51,7 @@ export default function Home() {
     setError(null);
 
     if (!query) {
-      alert('Please input a question');
+      alert('Escribe tu pregunta aquí...');
       return;
     }
 
@@ -121,7 +121,7 @@ export default function Home() {
       });
     } catch (error) {
       setLoading(false);
-      setError('An error occurred while fetching the data. Please try again.');
+      setError('Se produjo un error al recuperar los datos. Por favor, inténtalo de nuevo.');
       console.log('error', error);
     }
   }
@@ -165,7 +165,7 @@ export default function Home() {
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-            Chat With Your Legal Docs
+            Chat con tu experto en CIES
           </h1>
           <main className={styles.main}>
             <div className={styles.cloud}>
@@ -233,7 +233,7 @@ export default function Home() {
                                       {doc.pageContent}
                                     </ReactMarkdown>
                                     <p className="mt-2">
-                                      <b>Source:</b> {doc.metadata.source}
+                                      <b>Source:</b> <a target='_blank' href={`./${doc.metadata.source.split('/').reverse()[0]}#page=${doc.metadata.pdf_numpages}`}>{`Página ${doc.metadata.pdf_numpages}`}</a>
                                     </p>
                                   </AccordionContent>
                                 </AccordionItem>
@@ -281,8 +281,8 @@ export default function Home() {
                     name="userInput"
                     placeholder={
                       loading
-                        ? 'Waiting for response...'
-                        : 'What is this legal case about?'
+                        ? 'Esperando respuesta...'
+                        : 'Que quieres preguntar sobre las CIES?'
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
@@ -320,7 +320,7 @@ export default function Home() {
         </div>
         <footer className="m-auto p-4">
           <a href="https://twitter.com/mayowaoshin">
-            Powered by LangChainAI. Demo built by Mayo (Twitter: @mayowaoshin).
+            Powered by LangChainAI. Demo built by coara.
           </a>
         </footer>
       </Layout>
