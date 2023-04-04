@@ -233,7 +233,7 @@ export default function Home() {
                                       {doc.pageContent}
                                     </ReactMarkdown>
                                     <p className="mt-2">
-                                      <b>Source:</b> {doc.metadata.source}
+                                      <b>Source:</b> <a target='_blank' href={`./${doc.metadata.source.split('/').reverse()[0]}#page=${doc.metadata.pdf_numpages}`}>{`Page ${doc.metadata.pdf_numpages}`}</a>
                                     </p>
                                   </AccordionContent>
                                 </AccordionItem>
@@ -320,7 +320,7 @@ export default function Home() {
         </div>
         <footer className="m-auto p-4">
           <a href="https://twitter.com/mayowaoshin">
-            Powered by LangChainAI. Demo built by Mayo (Twitter: @mayowaoshin).
+            Powered by LangChainAI. Demo built by coara.
           </a>
         </footer>
       </Layout>
