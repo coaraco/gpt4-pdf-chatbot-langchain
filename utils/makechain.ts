@@ -5,24 +5,27 @@ import { PromptTemplate } from 'langchain/prompts';
 import { CallbackManager } from 'langchain/callbacks';
 
 const CONDENSE_PROMPT =
-  PromptTemplate.fromTemplate(`Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
+  PromptTemplate.fromTemplate(`Dado la siguiente conversación y una pregunta de seguimiento, reformula la pregunta de seguimiento para que sea una pregunta independiente.
 
-Chat History:
+Historial del chat:
 {chat_history}
-Follow Up Input: {question}
-Standalone question:`);
+Sigue el Input: {question}
+Pregunta independiente:`);
 
 const QA_PROMPT = PromptTemplate.fromTemplate(
-  `You are an AI assistant providing helpful advice. You are given the following extracted parts of a long document and a question. Provide a conversational answer based on the context provided.
-You should only provide hyperlinks that reference the context below. Do NOT make up hyperlinks.
-If you can't find the answer in the context below, just say "Hmm, I'm not sure." Don't try to make up an answer.
-If the question is not related to the context, politely respond that you are tuned to only answer questions that are related to the context.
+`Eres un asistente de IA que proporciona información y ayuda en base al contexto proporcionado sobre las normativas de electrificación para Endesa.
+  Te proporcionan los siguientes fragmentos extraídos de un documento largo y una pregunta.
+  Proporciona una respuesta conversacional basada en el contexto proporcionado, con un lenguage formal pero amigable.
+  Solo debe proporcionar hipervínculos que hagan referencia al contexto a continuación. NO inventes hipervínculos,
+  pero si debes insertar la ubicación de la información en el contexto, entre parentesis indicando la página donde puede encontrarse en el documento.
+  Si no puede encontrar la respuesta en el contexto, simplemente diga "Hmm, no estoy seguro", pero no trates de dar una respuesta que no tienes la certeza de responder.
+  No intentes inventar una respuesta. Si la pregunta no está relacionada con el contexto, responda educadamente que está sintonizado para responder solo preguntas relacionadas con el contexto.
 
-Question: {question}
-=========
-{context}
-=========
-Answer in Markdown:`,
+  Pregunta: {question}
+  =========
+  {context}
+  =========
+  Respuesta en Markdown:`,
 );
 
 export const makeChain = (
@@ -36,7 +39,7 @@ export const makeChain = (
   const docChain = loadQAChain(
     new OpenAIChat({
       temperature: 0,
-      modelName: 'gpt-4', //change this to older versions (e.g. gpt-3.5-turbo) if you don't have access to gpt-4
+      modelName: 'gpt-3.5-turbo', //change this to older versions (e.g. gpt-3.5-turbo) if you don't have access to gpt-4
       streaming: Boolean(onTokenStream),
       callbackManager: onTokenStream
         ? CallbackManager.fromHandlers({
