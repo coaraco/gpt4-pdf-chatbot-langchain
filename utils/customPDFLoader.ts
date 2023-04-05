@@ -2,6 +2,8 @@ import { Document } from 'langchain/document';
 import { readFile } from 'fs/promises';
 import { BaseDocumentLoader } from 'langchain/document_loaders';
 
+const PAGESEPARATORREGEX = /\n\d+\n/;
+
 export abstract class BufferLoader extends BaseDocumentLoader {
   constructor(public filePathOrBlob: string | Blob) {
     super();
@@ -35,6 +37,12 @@ export class CustomPDFLoader extends BufferLoader {
   ): Promise<Document[]> {
     const { pdf } = await PDFLoaderImports();
     const parsed = await pdf(raw);
+    console.log({parsed});
+    const pages = parsed.text.split(PAGESEPARATORREGEX);
+    const result = pages.map((pageContent: string, i: number) => {
+      return new Document({ pageContent, metadata: { ...metadata, page_number: i + 2 } })
+    })
+    return result;
     return [
       new Document({
         pageContent: parsed.text,

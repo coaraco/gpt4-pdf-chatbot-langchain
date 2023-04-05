@@ -233,7 +233,7 @@ export default function Home() {
                                       {doc.pageContent}
                                     </ReactMarkdown>
                                     <p className="mt-2">
-                                      <b>Source:</b> <a target='_blank' href={`./${doc.metadata.source.split('/').reverse()[0]}#page=${doc.metadata.pdf_numpages}`}>{`Page ${doc.metadata.pdf_numpages}`}</a>
+                                      <b>Source:</b> <a target='_blank' href={`./${doc.metadata.source.split('/').reverse()[0]}#page=${doc.metadata.page_number}`}>{`Page ${doc.metadata.page_number}`}</a>
                                     </p>
                                   </AccordionContent>
                                 </AccordionItem>

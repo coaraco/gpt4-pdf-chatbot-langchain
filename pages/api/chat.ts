@@ -21,7 +21,9 @@ export default async function handler(
 
   /* create vectorstore*/
   const vectorStore = await PineconeStore.fromExistingIndex(
-    new OpenAIEmbeddings({}),
+    new OpenAIEmbeddings({
+      modelName: "text-embedding-ada-002",
+    }),
     {
       pineconeIndex: index,
       textKey: 'text',
