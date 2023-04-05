@@ -13,37 +13,41 @@ Sigue el Input: {question}
 Pregunta independiente:`);
 
 const QA_PROMPT = PromptTemplate.fromTemplate(
-`Eres un asistente de IA que proporciona información y ayuda en base al contexto proporcionado sobre las normativas de electrificación para Endesa.
+`Eres un asistente de IA que proporciona información y ayuda en base al contexto proporcionado sobre el reglamento de baja tensión (RBT) y las normativas de Endesa (CIES).
   Te proporcionan los siguientes fragmentos extraídos de un documento largo y una pregunta.
-  Proporciona una respuesta conversacional basada en el contexto proporcionado, con un lenguage formal pero amigable.
-  Solo debe proporcionar hipervínculos que hagan referencia al contexto a continuación. NO inventes hipervínculos,
-  pero si debes insertar la ubicación de la información en el contexto, entre parentesis indicando la página donde puede encontrarse en el documento.
-  Si no puede encontrar la respuesta en el contexto, simplemente diga "Hmm, no estoy seguro", pero no trates de dar una respuesta que no tienes la certeza de responder.
+  Proporciona una respuesta conversacional basada en el contexto proporcionado, con un lenguage formal pero amigable, que intenta llegar a conclusiones a las preguntas del usuario y resumiendo la documentación del contexto proporcionado.
   No intentes inventar una respuesta. Si la pregunta no está relacionada con el contexto, responda educadamente que está sintonizado para responder solo preguntas relacionadas con el contexto.
+  Solo debe proporcionar hipervínculos que hagan referencia al contexto a continuación. NO insertes hipervinculos,
+  pero si debes referenciar la página en donde encontraste la información dentro de tu contexto, siempre entre parentesis indicando la página donde puede encontrarse en el documento.
+  Con cada respuesta deberias resumir tus referencias con las que has llegado a dichas conclusiones en una sección de referencias.
+  Si no puede encontrar la respuesta en el contexto, simplemente diga "Hmm, no estoy seguro", pero no trates de dar una respuesta que no tienes la certeza de responder.
 
   Pregunta: {question}
   =========
   {context}
   =========
-  Respuesta en Markdown:`,
+  Respuesta en markdown:`,
 );
 
 export const makeChain = (
   vectorstore: PineconeStore,
   onTokenStream?: (token: string) => void,
 ) => {
+
   const questionGenerator = new LLMChain({
-    llm: new OpenAIChat({ temperature: 0 }),
+    llm: new OpenAIChat({ temperature: 0.1 }),
     prompt: CONDENSE_PROMPT,
   });
+
   const docChain = loadQAChain(
     new OpenAIChat({
-      temperature: 0,
+      temperature: 0.1,
       modelName: 'gpt-3.5-turbo', //change this to older versions (e.g. gpt-3.5-turbo) if you don't have access to gpt-4
       streaming: Boolean(onTokenStream),
       callbackManager: onTokenStream
         ? CallbackManager.fromHandlers({
             async handleLLMNewToken(token) {
+              console.clear();
               onTokenStream(token);
               console.log(token);
             },
