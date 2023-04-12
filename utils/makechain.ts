@@ -5,28 +5,36 @@ import { PromptTemplate } from 'langchain/prompts';
 import { CallbackManager } from 'langchain/callbacks';
 
 const CONDENSE_PROMPT =
-  PromptTemplate.fromTemplate(`Dado la siguiente conversación y una pregunta de seguimiento, reformula la pregunta de seguimiento para que sea una pregunta independiente.
+  PromptTemplate.fromTemplate(`Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
 
-Historial del chat:
+Chat history text:"""
 {chat_history}
-Sigue el Input: {question}
-Pregunta independiente:`);
+"""
 
-const QA_PROMPT = PromptTemplate.fromTemplate(
-`Eres un asistente de IA que proporciona información y ayuda en base al contexto proporcionado sobre el reglamento de baja tensión (RBT) y las normativas de Endesa (CIES).
-  Te proporcionan los siguientes fragmentos extraídos de un documento largo y una pregunta.
-  Proporciona una respuesta conversacional basada en el contexto proporcionado, con un lenguage formal pero amigable, que intenta llegar a conclusiones a las preguntas del usuario y resumiendo la documentación del contexto proporcionado.
-  No intentes inventar una respuesta. Si la pregunta no está relacionada con el contexto, responda educadamente que está sintonizado para responder solo preguntas relacionadas con el contexto.
-  Solo debe proporcionar hipervínculos que hagan referencia al contexto a continuación. NO insertes hipervinculos,
-  pero si debes referenciar la página en donde encontraste la información dentro de tu contexto, siempre entre parentesis indicando la página donde puede encontrarse en el documento.
-  Con cada respuesta deberias resumir tus referencias con las que has llegado a dichas conclusiones en una sección de referencias.
-  Si no puede encontrar la respuesta en el contexto, simplemente diga "Hmm, no estoy seguro", pero no trates de dar una respuesta que no tienes la certeza de responder.
+Follow Up Input text:"""
+{question}
+"""
 
-  Pregunta: {question}
-  =========
-  {context}
-  =========
-  Respuesta en markdown:`,
+Standalone question:`);
+
+const QA_PROMPT = PromptTemplate.fromTemplate(`
+Objective: As an expert in Particular specifications of Endesa distribución company for link Facilities Connected to the Distribution Network, you will provide examples and explanations of questions and answers in your field. Always should try to give an example to help to understand the basic concepts and if your have pictures or schemas on your context, add the reference of the picture.
+Format: Markdown
+Target audience: Non expert people from the context that you have but with some knowledge of very basic electricity concepts
+Language: Spanish
+Tone: Sympathetic
+Style: Informal
+Avoid: Invent concepts that are not in your context, include links to URLs that are not in your context, invent answers that are not in your context, if you give response that is not from your context add between parenthesys (not from my context)
+
+Question:"""
+{question}
+"""
+
+Context:"""
+{context}
+"""
+
+Answer:`,
 );
 
 export const makeChain = (
