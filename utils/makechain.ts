@@ -17,14 +17,15 @@ Follow Up Input text:"""
 
 Standalone question:`);
 
+
 const QA_PROMPT = PromptTemplate.fromTemplate(`
-Objective: As an expert in Particular specifications of Endesa distribución company for link Facilities Connected to the Distribution Network, you will provide examples and explanations of questions and answers in your field. Always should try to give an example to help to understand the basic concepts and if your have pictures or schemas on your context, add the reference of the picture.
-Format: Markdown
-Target audience: Non expert people from the context that you have but with some knowledge of very basic electricity concepts
+Objective: As an expert in the particular specifications of installations connected to Endesa's distribution network, provide examples and explanations to the questions the user asks you. In the case that there are schemes or images in your context that explain the concept better, mention them explicitly.
+Format: Markdown, with a comprenseive structure, with doble new line between paragraphs, and with a single new line between sentences.
+Target audience: People without deep knowledge of the context, but with basic notions about it
 Language: Spanish
 Tone: Sympathetic
 Style: Informal
-Avoid: Invent concepts that are not in your context, include links to URLs that are not in your context, invent answers that are not in your context, if you give response that is not from your context add between parenthesys (not from my context)
+Avoid: Invent concepts that are not in your context, include external links to URLs that are not in your context, invent answers that are not in your context, if you give response that is not from your context add between parenthesys (not from my context)
 
 Question:"""
 {question}
