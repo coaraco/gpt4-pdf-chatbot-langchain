@@ -165,7 +165,7 @@ export default function Home() {
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-            Chat con tu experto en Reglamento Eléctrico en Baleares
+            Chatea con tu experto electricista
           </h1>
           <main className={styles.main}>
             <div className={styles.cloud}>
