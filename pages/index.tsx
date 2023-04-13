@@ -226,14 +226,16 @@ export default function Home() {
                               <div key={`messageSourceDocs-${index}`}>
                                 <AccordionItem value={`item-${index}`}>
                                   <AccordionTrigger>
-                                    <h3>Source {index + 1}</h3>
+                                    <h3>Referencia {index + 1}</h3>
                                   </AccordionTrigger>
                                   <AccordionContent>
+                                    <i>Extracto:</i>
                                     <ReactMarkdown linkTarget="_blank">
                                       {doc.pageContent}
                                     </ReactMarkdown>
-                                    <p className="mt-2">
-                                      <b>Source:</b> <a target='_blank' href={doc.metadata.link}>Página {doc.metadata.page_number} del documento {doc.metadata.document_name}</a>
+                                    <p>
+                                    <br></br> <i>Enlace:</i><br></br>
+                                      <a target='_blank' style={{ textDecoration: 'underline' }} href={doc.metadata.link}>Página {doc.metadata.page_number} del documento {doc.metadata.document_name} 🔗</a>
                                     </p>
                                   </AccordionContent>
                                 </AccordionItem>
