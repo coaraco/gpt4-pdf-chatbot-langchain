@@ -27,7 +27,8 @@ export abstract class BufferLoader extends BaseDocumentLoader {
     let buffer: Buffer;
     let metadata: Record<string, string | null>;
     if (typeof this.filePathOrBlob === 'string') {
-      const component = Object.entries(componentsFiles).map(([component, paths]) => paths.includes((this.filePathOrBlob).split("/docs/").pop()) ? component : null).filter(Boolean)[0]
+      const path = this.filePathOrBlob.split("/docs/").pop() as string;
+      const component = Object.entries(componentsFiles).map(([component, paths]) => paths.includes(path) ? component : null).filter(Boolean)[0]
       buffer = await readFile(this.filePathOrBlob);
       metadata = { source: this.filePathOrBlob, component };
     } else {
