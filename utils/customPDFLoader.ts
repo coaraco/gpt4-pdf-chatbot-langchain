@@ -27,10 +27,10 @@ export abstract class BufferLoader extends BaseDocumentLoader {
     let buffer: Buffer;
     let metadata: Record<string, string | null>;
     if (typeof this.filePathOrBlob === 'string') {
-      const path = this.filePathOrBlob.split("/docs/").pop() as string;
-      const component = Object.entries(componentsFiles).map(([component, paths]) => paths.includes(path) ? component : null).filter(Boolean)[0]
-      buffer = await readFile(this.filePathOrBlob);
-      metadata = { source: this.filePathOrBlob, component };
+      const source = this.filePathOrBlob.split("/docs/").pop() as string;
+      const component = Object.entries(componentsFiles).map(([component, paths]) => paths.includes(source) ? component : null).filter(Boolean)[0]
+      buffer = await readFile(source);
+      metadata = { source, component };
     } else {
       buffer = await this.filePathOrBlob
         .arrayBuffer()
