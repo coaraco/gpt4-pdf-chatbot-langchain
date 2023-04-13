@@ -2,7 +2,7 @@ import { Document } from 'langchain/document';
 import { readFile } from 'fs/promises';
 import { BaseDocumentLoader } from 'langchain/document_loaders';
 
-const PAGESEPARATORREGEX = /Página \d+ de \d+/;
+const PAGESEPARATORREGEX = /(?:Página\s\d+\sde\s\d+)|(?:–\s\d+\s–)/;
 
 export abstract class BufferLoader extends BaseDocumentLoader {
   constructor(public filePathOrBlob: string | Blob) {
@@ -26,6 +26,7 @@ export abstract class BufferLoader extends BaseDocumentLoader {
         .then((ab) => Buffer.from(ab));
       metadata = { source: 'blob', blobType: this.filePathOrBlob.type };
     }
+    console.log("metadata", metadata);
     return this.parse(buffer, metadata);
   }
 }
@@ -39,7 +40,17 @@ export class CustomPDFLoader extends BufferLoader {
     const parsed = await pdf(raw);
     const pages = (parsed.text as string).split(PAGESEPARATORREGEX);
     return pages.map((pageContent: string, i: number) => {
-      return new Document({ pageContent, metadata: { ...metadata, page_number: i+1 } })
+      const page_number = i + (metadata.source.split("/docs").pop() === "REBT.pdf" ? i >= 7 ? 8 : 1 : 1);
+
+      return new Document({
+        pageContent,
+        metadata: {
+          ...metadata,
+          document_name: metadata.source.split("/docs/").pop(),
+          link: `${metadata.source.split("/docs").pop()}#page=${page_number}`,
+          page_number,
+        }
+      })
     })
   }
 }

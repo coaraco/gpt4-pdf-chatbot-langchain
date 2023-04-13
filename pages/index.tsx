@@ -27,7 +27,7 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: '¡Hola! ¿Como puedo ayudarte con las CIES?',
+        message: '¡Hola! ¿Cómo puedo ayudarte?',
         type: 'apiMessage',
       },
     ],
@@ -165,7 +165,7 @@ export default function Home() {
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-            Chat con tu experto en CIES
+            Chat con tu experto en Reglamento Eléctrico en Baleares
           </h1>
           <main className={styles.main}>
             <div className={styles.cloud}>
@@ -233,7 +233,7 @@ export default function Home() {
                                       {doc.pageContent}
                                     </ReactMarkdown>
                                     <p className="mt-2">
-                                      <b>Source:</b> <a target='_blank' href={`./${doc.metadata.source.split('/').reverse()[0]}#page=${doc.metadata.page_number}`}>{`Página ${doc.metadata.page_number}`}</a>
+                                      <b>Source:</b> <a target='_blank' href={doc.metadata.link}>Página {doc.metadata.page_number} del documento {doc.metadata.document_name}</a>
                                     </p>
                                   </AccordionContent>
                                 </AccordionItem>
@@ -282,7 +282,7 @@ export default function Home() {
                     placeholder={
                       loading
                         ? 'Esperando respuesta...'
-                        : 'Que quieres preguntar sobre las CIES?'
+                        : 'Escribe aquí...'
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
