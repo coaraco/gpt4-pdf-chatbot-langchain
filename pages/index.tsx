@@ -27,7 +27,7 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: '¡Hola! ¿Cómo puedo ayudarte?',
+        message: '¡Hi! ¿How can i help you?',
         type: 'apiMessage',
       },
     ],
@@ -51,7 +51,7 @@ export default function Home() {
     setError(null);
 
     if (!query) {
-      alert('Escribe tu pregunta aquí...');
+      alert('Type here...');
       return;
     }
 
@@ -165,7 +165,7 @@ export default function Home() {
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-            Chatea con tu experto electricista
+            Ask about the Main Gear of Independence
           </h1>
           <main className={styles.main}>
             <div className={styles.cloud}>
@@ -226,16 +226,16 @@ export default function Home() {
                               <div key={`messageSourceDocs-${index}`}>
                                 <AccordionItem value={`item-${index}`}>
                                   <AccordionTrigger>
-                                    <h3>Referencia {index + 1}</h3>
+                                    <h3>Reference {index + 1}</h3>
                                   </AccordionTrigger>
                                   <AccordionContent>
-                                    <i>Extracto:</i>
+                                    <i>Extract:</i>
                                     <ReactMarkdown linkTarget="_blank">
                                       {doc.pageContent}
                                     </ReactMarkdown>
                                     <p>
-                                    <br></br> <i>Enlace:</i><br></br>
-                                      <a target='_blank' style={{ textDecoration: 'underline' }} href={doc.metadata.link}>Página {doc.metadata.page_number} del documento {doc.metadata.document_name} 🔗</a>
+                                    <br></br> <i>Link:</i><br></br>
+                                      <a target='_blank' style={{ textDecoration: 'underline' }} href={doc.metadata.link}>Page {doc.metadata.page_number} of document {doc.metadata.document_name} 🔗</a>
                                     </p>
                                   </AccordionContent>
                                 </AccordionItem>
@@ -283,8 +283,8 @@ export default function Home() {
                     name="userInput"
                     placeholder={
                       loading
-                        ? 'Esperando respuesta...'
-                        : 'Escribe aquí...'
+                        ? 'Waiting response...'
+                        : 'Write here...'
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
