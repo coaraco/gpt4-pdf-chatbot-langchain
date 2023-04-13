@@ -23,7 +23,7 @@ export abstract class BufferLoader extends BaseDocumentLoader {
     metadata: Document['metadata'],
   ): Promise<Document[]>;
 
-  public async load(): Promise<Document[] | null> {
+  public async load(): Promise<Document[]> {
     let buffer: Buffer;
     let metadata: Record<string, string | null>;
     if (typeof this.filePathOrBlob === 'string') {
