@@ -16,7 +16,6 @@ export const run = async () => {
     });
 
     const rawDocs = await directoryLoader.load();
-    console.log("[ rawDocs ]", rawDocs);
 
     console.log('creating vector store...');
     /*create and store the embeddings in the vectorStore*/

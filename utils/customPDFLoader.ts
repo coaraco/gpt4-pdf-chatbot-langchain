@@ -65,7 +65,7 @@ async function PDFLoaderImports(filePath: string): Promise<any> {
 
       if (item.text) {
         if (!pages[parsingPage]) pages[parsingPage] = "";
-        pages[parsingPage] += item.text;
+        pages[parsingPage] += ` ${item.text}`;
       }
     });
   });
