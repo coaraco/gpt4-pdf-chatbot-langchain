@@ -42,7 +42,7 @@ export class CustomPDFLoader extends BufferLoader {
           pageContent: pageContent || "",
           metadata: {
             ...metadata,
-            pdf_numpages: pdf.length,
+            pdf_numpages: pdf.length - 1,
             current_page: index,
           },
         }),

@@ -15,8 +15,8 @@ export const run = async () => {
       '.pdf': (path) => new CustomPDFLoader(path),
     });
 
-    // const loader = new PDFLoader(filePath);
     const rawDocs = await directoryLoader.load();
+    console.log("[ rawDocs ]", rawDocs);
 
     console.log('creating vector store...');
     /*create and store the embeddings in the vectorStore*/
