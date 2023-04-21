@@ -1,3 +1,4 @@
+import { PdfReader } from "pdfreader";
 import { Document } from 'langchain/document';
 import { readFile } from 'fs/promises';
 import { BaseDocumentLoader } from 'langchain/document_loaders';
@@ -33,29 +34,39 @@ export class CustomPDFLoader extends BufferLoader {
     raw: Buffer,
     metadata: Document['metadata'],
   ): Promise<Document[]> {
-    const { pdf } = await PDFLoaderImports();
-    const parsed = await pdf(raw);
+    const pdf = await PDFLoaderImports(metadata.source);
+
     return [
-      new Document({
-        pageContent: parsed.text,
-        metadata: {
-          ...metadata,
-          pdf_numpages: parsed.numpages,
-        },
-      }),
-    ];
+      ...pdf.map((pageContent: string, index: number) =>
+        new Document({
+          pageContent: pageContent || "",
+          metadata: {
+            ...metadata,
+            totalPages: pdf.length - 1,
+            currentPage: index,
+          },
+        }),
+      )
+    ].filter(Boolean);
   }
 }
 
-async function PDFLoaderImports() {
-  try {
-    // the main entrypoint has some debug code that we don't want to import
-    const { default: pdf } = await import('pdf-parse/lib/pdf-parse.js');
-    return { pdf };
-  } catch (e) {
-    console.error(e);
-    throw new Error(
-      'Failed to load pdf-parse. Please install it with eg. `npm install pdf-parse`.',
-    );
-  }
+async function PDFLoaderImports(filePath: string): Promise<any> {
+  const reader = new PdfReader();
+  const pages: string[] = [];
+
+  let parsingPage: number = 0;
+
+  return new Promise(resolve => {
+    reader.parseFileItems(filePath, (_: any, item: any) => {
+      if (!item) return resolve(pages.map(page => page || ""));
+
+      if (item.page) parsingPage = item.page;
+
+      if (item.text) {
+        if (!pages[parsingPage]) pages[parsingPage] = "";
+        pages[parsingPage] += ` ${item.text}`;
+      }
+    });
+  });
 }

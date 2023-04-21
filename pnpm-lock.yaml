@@ -28,6 +28,9 @@ dependencies:
   pdf-parse:
     specifier: 1.1.1
     version: 1.1.1
+  pdfreader:
+    specifier: ^3.0.0
+    version: 3.0.0
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -2914,6 +2917,21 @@ packages:
       node-ensure: 0.0.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /pdf2json@3.0.1:
+    resolution: {integrity: sha512-1pNsakC8F+OuFS72U+ZI0u8J/voPYYDYHj/0B/7ywYUm3w0QurkDBy3pH35kzygjgmJJVHk2a9I6gBswFF8hQQ==}
+    engines: {node: '>=14.18.0', npm: '>=8.12.1'}
+    hasBin: true
+    dev: false
+    bundledDependencies:
+      - '@xmldom/xmldom'
+
+  /pdfreader@3.0.0:
+    resolution: {integrity: sha512-jTMFdvC4RT5kcU2CrT8GqtswNCYiU/tPHwVKGgnnta6tNaLIgV+ekkb4kq+5xgkQMMR+OJsj/AdAIaASmHr8Iw==}
+    engines: {node: '>=14'}
+    dependencies:
+      pdf2json: 3.0.1
     dev: false
 
   /picocolors@1.0.0:

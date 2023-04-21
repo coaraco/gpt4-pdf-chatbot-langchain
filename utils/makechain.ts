@@ -13,16 +13,23 @@ Follow Up Input: {question}
 Standalone question:`);
 
 const QA_PROMPT = PromptTemplate.fromTemplate(
-  `You are an AI assistant providing helpful advice. You are given the following extracted parts of a long document and a question. Provide a conversational answer based on the context provided.
-You should only provide hyperlinks that reference the context below. Do NOT make up hyperlinks.
-If you can't find the answer in the context below, just say "Hmm, I'm not sure." Don't try to make up an answer.
-If the question is not related to the context, politely respond that you are tuned to only answer questions that are related to the context.
+  `Objective: As an expert in RXJS, you will provide examples and explanations of questions and answers in your field. Always should try to give an example of the implementation.
+  Format: Markdown
+  Target audience: Expert javascript developers
+  Language: English, or respond in your native language of the question
+  Tone: Confident
+  Style: Technical
+  Avoid: Invent concepts that are not in your context, include links to URLs that are not in your context, invent answers that are not in your context, if you give response that is not from your context add between parenthesys (not from my context)
 
-Question: {question}
-=========
-{context}
-=========
-Answer in Markdown:`,
+  Question:"""
+  {question}
+  """
+
+  Context:"""
+  {context}
+  """
+
+  Answer:`,
 );
 
 export const makeChain = (
