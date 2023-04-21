@@ -233,9 +233,8 @@ export default function Home() {
                                     <ReactMarkdown linkTarget="_blank">
                                       {doc.pageContent}
                                     </ReactMarkdown>
-                                    <p>
-                                    <br></br> <i>Enlace:</i><br></br>
-                                      <a target='_blank' style={{ textDecoration: 'underline' }} href={doc.metadata.link}>Página {doc.metadata.page_number} del documento {doc.metadata.document_name} 🔗</a>
+                                    <p className="mt-2">
+                                      <b>Source:</b> <a target='_blank' href={`./${doc.metadata.source.split('/').reverse()[0]}#page=${doc.metadata.currentPages}`}>{`Page ${doc.metadata.currentPages} of ${doc.metadata.totalPages}`}</a>
                                     </p>
                                   </AccordionContent>
                                 </AccordionItem>
