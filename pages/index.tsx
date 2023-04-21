@@ -27,7 +27,7 @@ export default function Home() {
   }>({
     messages: [
       {
-        message: 'Hi, what would you like to learn about this legal case?',
+        message: '¡Hola! ¿Cómo puedo ayudarte?',
         type: 'apiMessage',
       },
     ],
@@ -51,7 +51,7 @@ export default function Home() {
     setError(null);
 
     if (!query) {
-      alert('Please input a question');
+      alert('Escribe tu pregunta aquí...');
       return;
     }
 
@@ -121,7 +121,7 @@ export default function Home() {
       });
     } catch (error) {
       setLoading(false);
-      setError('An error occurred while fetching the data. Please try again.');
+      setError('Se produjo un error al recuperar los datos. Por favor, inténtalo de nuevo.');
       console.log('error', error);
     }
   }
@@ -165,7 +165,7 @@ export default function Home() {
       <Layout>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-            Chat With Your Legal Docs
+            Chatea con tu experto electricista
           </h1>
           <main className={styles.main}>
             <div className={styles.cloud}>
@@ -226,9 +226,10 @@ export default function Home() {
                               <div key={`messageSourceDocs-${index}`}>
                                 <AccordionItem value={`item-${index}`}>
                                   <AccordionTrigger>
-                                    <h3>Source {index + 1}</h3>
+                                    <h3>Referencia {index + 1}</h3>
                                   </AccordionTrigger>
                                   <AccordionContent>
+                                    <i>Extracto:</i>
                                     <ReactMarkdown linkTarget="_blank">
                                       {doc.pageContent}
                                     </ReactMarkdown>
@@ -281,8 +282,8 @@ export default function Home() {
                     name="userInput"
                     placeholder={
                       loading
-                        ? 'Waiting for response...'
-                        : 'What is this legal case about?'
+                        ? 'Esperando respuesta...'
+                        : 'Escribe aquí...'
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}

@@ -54,6 +54,7 @@ export default async function handler(
     });
 
     console.log('response', response);
+    console.log('sourceDocuments', response.sourceDocuments);
     sendData(JSON.stringify({ sourceDocs: response.sourceDocuments }));
   } catch (error) {
     console.log('error', error);

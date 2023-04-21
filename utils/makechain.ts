@@ -7,47 +7,57 @@ import { CallbackManager } from 'langchain/callbacks';
 const CONDENSE_PROMPT =
   PromptTemplate.fromTemplate(`Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
 
-Chat History:
+Chat history text:"""
 {chat_history}
-Follow Up Input: {question}
+"""
+
+Follow Up Input text:"""
+{question}
+"""
+
 Standalone question:`);
 
-const QA_PROMPT = PromptTemplate.fromTemplate(
-  `Objective: As an expert in RXJS, you will provide examples and explanations of questions and answers in your field. Always should try to give an example of the implementation.
-  Format: Markdown
-  Target audience: Expert javascript developers
-  Language: English, or respond in your native language of the question
-  Tone: Confident
-  Style: Technical
-  Avoid: Invent concepts that are not in your context, include links to URLs that are not in your context, invent answers that are not in your context, if you give response that is not from your context add between parenthesys (not from my context)
 
-  Question:"""
-  {question}
-  """
+const QA_PROMPT = PromptTemplate.fromTemplate(`
+Objective: As an expert in the particular specifications of installations connected to Endesa's distribution network and Electrotechnical Regulations for Low Voltage and Technical Instructions for its Implementation, just try to answer the question as if you were an expert in the context and don't explain a lot if the user don't ask for explanation
+In the case that there are schemes or images in your context that explain the concept better, mention them explicitly
+Format: Markdown, with a comprenseive structure, with doble new line between paragraphs, and with a single new line between sentences
+Target audience: People without deep knowledge of the context, but with basic notions about it
+Language: Spanish
+Tone: Sympathetic and polite
+Style: Informal
+Avoid: Invent concepts that are not in your context, include external links to URLs that are not in your context, invent answers that are not in your context, if you give response that is not from your context add between parenthesys (not from my context)
 
-  Context:"""
-  {context}
-  """
+Question:"""
+{question}
+"""
 
-  Answer:`,
+Context:"""
+{context}
+"""
+
+Answer:`,
 );
 
 export const makeChain = (
   vectorstore: PineconeStore,
   onTokenStream?: (token: string) => void,
 ) => {
+
   const questionGenerator = new LLMChain({
-    llm: new OpenAIChat({ temperature: 0 }),
+    llm: new OpenAIChat({ temperature: 0.1 }),
     prompt: CONDENSE_PROMPT,
   });
+
   const docChain = loadQAChain(
     new OpenAIChat({
-      temperature: 0,
-      modelName: 'gpt-3.5-turbo', //change this to older versions (e.g. gpt-3.5-turbo or gpt-4) if you don't have access to gpt-4
+      temperature: 0.1,
+      modelName: 'gpt-3.5-turbo', //change this to older versions (e.g. gpt-3.5-turbo) if you don't have access to gpt-4
       streaming: Boolean(onTokenStream),
       callbackManager: onTokenStream
         ? CallbackManager.fromHandlers({
             async handleLLMNewToken(token) {
+              console.clear();
               onTokenStream(token);
               console.log(token);
             },

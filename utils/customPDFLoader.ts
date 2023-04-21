@@ -3,6 +3,8 @@ import { Document } from 'langchain/document';
 import { readFile } from 'fs/promises';
 import { BaseDocumentLoader } from 'langchain/document_loaders';
 
+const PAGESEPARATORREGEX = /(?:Página\s\d+\sde\s\d+)|(?:–\s\d+\s–)/;
+
 export abstract class BufferLoader extends BaseDocumentLoader {
   constructor(public filePathOrBlob: string | Blob) {
     super();
@@ -25,6 +27,7 @@ export abstract class BufferLoader extends BaseDocumentLoader {
         .then((ab) => Buffer.from(ab));
       metadata = { source: 'blob', blobType: this.filePathOrBlob.type };
     }
+    console.log("metadata", metadata);
     return this.parse(buffer, metadata);
   }
 }
